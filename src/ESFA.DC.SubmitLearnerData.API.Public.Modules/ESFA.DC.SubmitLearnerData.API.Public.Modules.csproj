@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.4" />
+    <PackageReference Include="ESFA.DC.Logging" Version="0.1.6-beta0001" />
+    <PackageReference Include="ESFA.DC.Logging.Interfaces" Version="0.1.6-beta0001" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.SubmitLearnerData.API.Public.Interface\ESFA.DC.SubmitLearnerData.API.Public.Interface.csproj" />
+    <ProjectReference Include="..\ESFA.DC.SubmitLearnerData.API.Public.Service\ESFA.DC.SubmitLearnerData.API.Public.Service.csproj" />
+    <ProjectReference Include="..\ESFA.DC.SubmitLearnerData.API.Public.Utils\ESFA.DC.SubmitLearnerData.API.Public.Utils.csproj" />
+  </ItemGroup>
+
+</Project>
