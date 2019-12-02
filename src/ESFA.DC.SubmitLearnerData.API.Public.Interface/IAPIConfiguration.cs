@@ -12,7 +12,5 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Interface
         string SubmitLearnerDataDownloadsUrl { get; }
 
         string Container { get; }
-
-        Task LoadAsync(CancellationToken cancellationToken);
     }
 }
