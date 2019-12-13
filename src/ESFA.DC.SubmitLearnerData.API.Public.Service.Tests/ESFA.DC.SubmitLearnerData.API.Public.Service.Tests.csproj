@@ -117,8 +117,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\AbstractAPIServiceTests.cs" />
     <Compile Include="APICacheRetrievalServiceTests.cs" />
+    <Compile Include="ReferenceDataVersionsProviderTests.cs" />
     <Compile Include="ApplicationVersionsProviderTests.cs" />
     <Compile Include="AzureContainerServiceTests.cs" />
     <Compile Include="AzureStorageRepositoryServiceTests.cs" />

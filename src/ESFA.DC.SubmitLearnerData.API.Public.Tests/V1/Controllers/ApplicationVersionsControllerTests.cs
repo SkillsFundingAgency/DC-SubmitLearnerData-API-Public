@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using ESFA.DC.Logging.Interfaces;
-using ESFA.DC.SubmitLearnerData.API.Public.Model;
+using ESFA.DC.SubmitLearnerData.API.Public.Model.Application;
 using ESFA.DC.SubmitLearnerData.API.Public.Service.Interface;
 using ESFA.DC.SubmitLearnerData.API.Public.Utils.Polly;
 using ESFA.DC.SubmitLearnerData.API.Public.Utils.Polly.Interface;
@@ -35,7 +35,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Tests.V1.Controllers
                 }
             };            
 
-            var providerMock = new Mock<IApplicationVersionsProvider>();
+            var providerMock = new Mock<IProvider<ApplicationVersions>>();
             providerMock.Setup(pm => pm.ProvideVersions()).Returns(Task.FromResult(appVersions));
 
             var loggerMock = new Mock<ILogger>();
@@ -48,7 +48,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Tests.V1.Controllers
         }
 
         private ApplicationVersionsController NewController(
-            IApplicationVersionsProvider applicationVersionsProvider = null,
+            IProvider<ApplicationVersions> applicationVersionsProvider = null,
             IMemoryCache memoryCache = null, 
             IPollyPolicies pollyPolicies = null)
         {
