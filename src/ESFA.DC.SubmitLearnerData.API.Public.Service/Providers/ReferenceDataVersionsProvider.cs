@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.SubmitLearnerData.API.Public.Interface;
 using ESFA.DC.SubmitLearnerData.API.Public.Model.ReferenceData;
@@ -22,14 +23,14 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Providers
             _configuration = configuration;
         }
 
-        public async Task<ReferenceDataVersions> ProvideVersions()
+        public async Task<ReferenceDataVersions> ProvideVersions(CancellationToken cancellationToken)
         {
-            return await _apiCacheRetrieval.GetOrCreate(_cacheEntry, _cacheExpiration, BuildReferenceDataVersions());
+            return await _apiCacheRetrieval.GetOrCreate(_cacheEntry, _cacheExpiration, BuildReferenceDataVersions(cancellationToken));
         }
 
-        private async Task<ReferenceDataVersions> BuildReferenceDataVersions()
+        private async Task<ReferenceDataVersions> BuildReferenceDataVersions(CancellationToken cancellationToken)
         {
-            var versions = await _applicationVersionsRepositoryService.DesktopReferenceDataVersions();
+            var versions = await _applicationVersionsRepositoryService.DesktopReferenceDataVersions(cancellationToken);
 
             return new ReferenceDataVersions
             {

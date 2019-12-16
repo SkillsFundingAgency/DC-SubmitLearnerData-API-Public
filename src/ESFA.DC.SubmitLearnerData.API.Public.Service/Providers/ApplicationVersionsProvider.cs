@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.SubmitLearnerData.API.Public.Interface;
 using ESFA.DC.SubmitLearnerData.API.Public.Model.Application;
@@ -22,14 +23,14 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Providers
             _configuration = configuration;
         }
 
-        public async Task<ApplicationVersions> ProvideVersions()
+        public async Task<ApplicationVersions> ProvideVersions(CancellationToken cancellationToken)
         {
-            return await _apiCacheRetrieval.GetOrCreate(_cacheEntry, _cacheExpiration, BuildApplicationVersions());
+            return await _apiCacheRetrieval.GetOrCreate(_cacheEntry, _cacheExpiration, BuildApplicationVersions(cancellationToken));
         }
 
-        private async Task<ApplicationVersions> BuildApplicationVersions()
+        private async Task<ApplicationVersions> BuildApplicationVersions(CancellationToken cancellationToken)
         {
-            var versions = await _applicationVersionsRepositoryService.DesktopApplicationVersions();
+            var versions = await _applicationVersionsRepositoryService.DesktopApplicationVersions(cancellationToken);
 
             return new ApplicationVersions
             {

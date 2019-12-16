@@ -16,6 +16,10 @@ using System.Reflection;
 using ESFA.DC.SubmitLearnerData.API.Public.Interface;
 using ESFA.DC.SubmitLearnerData.API.Public.Modules;
 using ESFA.DC.SubmitLearnerData.API.Public.Config;
+using ESFA.DC.FileService.Config;
+using ESFA.DC.FileService.Config.Interface;
+using ESFA.DC.FileService;
+using ESFA.DC.FileService.Interface;
 
 namespace ESFA.DC.SubmitLearnerData.API.Public
 {
@@ -112,6 +116,15 @@ namespace ESFA.DC.SubmitLearnerData.API.Public
             containerBuilder.RegisterInstance<APIConfiguration>(config).As<IAPIConfiguration>();
             containerBuilder.RegisterModule<APIModule>();
             containerBuilder.RegisterModule(new LoggerModule(config));
+
+            var azureConfig = new AzureStorageFileServiceConfiguration
+            {
+                ConnectionString = config.AzureStorageConnectionString
+            };
+
+            containerBuilder.RegisterInstance(azureConfig).As<IAzureStorageFileServiceConfiguration>();
+
+            containerBuilder.RegisterType<AzureStorageFileService>().As<IFileService>();
 
             return containerBuilder;
         }

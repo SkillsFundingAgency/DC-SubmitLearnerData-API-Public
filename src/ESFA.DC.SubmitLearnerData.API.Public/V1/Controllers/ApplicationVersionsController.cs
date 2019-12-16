@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using ESFA.DC.SubmitLearnerData.API.Public.Model.Application;
 using ESFA.DC.SubmitLearnerData.API.Public.Service.Interface;
 using ESFA.DC.SubmitLearnerData.API.Public.Utils.Polly.Interface;
@@ -22,9 +23,9 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.V1.Controllers
 
         // GET api/values
         [HttpGet]
-        public async Task<ApplicationVersions> Get()
+        public async Task<ApplicationVersions> Get(CancellationToken cancellationToken)
         {
-            return await _policies.RequestTimeoutAsyncRetryPolicy.ExecuteAsync(() => _applicationVersionsProvider.ProvideVersions());
+            return await _policies.RequestTimeoutAsyncRetryPolicy.ExecuteAsync(() => _applicationVersionsProvider.ProvideVersions(cancellationToken));
         }
     }
 }
