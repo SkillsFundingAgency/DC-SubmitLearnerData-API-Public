@@ -43,14 +43,6 @@ steps:
     feedsToUse: 'select'
     vstsFeed: 'dct-pkg'
 
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: '**/ESFA.DC.SubmitLearnerData.API.Public.Service.Tests.csproj'
-    feedsToUse: 'select'
-    vstsFeed: 'dct-pkg'
-    includeNuGetOrg: true
-
 - task: DotNetCoreCLI@2
   displayName: 'Build Solution'
   inputs:
