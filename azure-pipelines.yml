@@ -43,14 +43,6 @@ steps:
     feedsToUse: 'select'
     vstsFeed: 'dct-pkg'
 
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: '**/*.sln'
-    feedsToUse: 'select'
-    vstsFeed: 'dct-pkg'
-    includeNuGetOrg: false
-
 - task: DotNetCoreCLI@2
   displayName: 'Build Solution'
   inputs:
