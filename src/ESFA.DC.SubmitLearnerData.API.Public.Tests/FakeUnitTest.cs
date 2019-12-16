@@ -5,7 +5,7 @@ using Xunit;
 
 namespace ESFA.DC.SubmitLearnerData.API.Public.Tests
 {
-    class FakeUnitTest
+    public class FakeUnitTest
     {
             [Fact]
             public void Test()
