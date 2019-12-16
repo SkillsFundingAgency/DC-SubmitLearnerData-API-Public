@@ -1,7 +1,5 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Autofac.Integration.Mvc;
-using Autofac.Integration.WebApi;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -110,8 +108,8 @@ namespace ESFA.DC.SubmitLearnerData.API.Public
             var containerBuilder = new ContainerBuilder();
 
             containerBuilder.Populate(services);
-            containerBuilder.RegisterControllers(Assembly.GetExecutingAssembly()); //Register MVC Controllers
-            containerBuilder.RegisterApiControllers(Assembly.GetExecutingAssembly()); //Register WebApi Controllers
+           // containerBuilder.RegisterControllers(Assembly.GetExecutingAssembly()); //Register MVC Controllers
+           // containerBuilder.RegisterApiControllers(Assembly.GetExecutingAssembly()); //Register WebApi Controllers
 
             containerBuilder.RegisterInstance<APIConfiguration>(config).As<IAPIConfiguration>();
             containerBuilder.RegisterModule<APIModule>();
