@@ -17,13 +17,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.SubmitLearnerData.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.SubmitLearnerData.API.Public.Tests", "ESFA.DC.SubmitLearnerData.API.Public.Tests\ESFA.DC.SubmitLearnerData.API.Public.Tests.csproj", "{ECCED43F-5930-4D38-ABFC-B602AFDB5C26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.SubmitLearnerData.API.Public.Service.Tests", "ESFA.DC.SubmitLearnerData.API.Public.Service.Tests\ESFA.DC.SubmitLearnerData.API.Public.Service.Tests.csproj", "{61C4317F-5EC0-446D-A0E6-560D9EAAAF66}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A295F494-6675-46FC-A62F-AD72FCF6257C}"
 	ProjectSection(SolutionItems) = preProject
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 		..\README.md = ..\README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.SubmitLearnerData.API.Public.Service.Tests", "ESFA.DC.SubmitLearnerData.API.Public.Service.Tests\ESFA.DC.SubmitLearnerData.API.Public.Service.Tests.csproj", "{ABF24261-DC94-43ED-AC59-C0439A2A618D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,10 +59,10 @@ Global
 		{ECCED43F-5930-4D38-ABFC-B602AFDB5C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECCED43F-5930-4D38-ABFC-B602AFDB5C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECCED43F-5930-4D38-ABFC-B602AFDB5C26}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61C4317F-5EC0-446D-A0E6-560D9EAAAF66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61C4317F-5EC0-446D-A0E6-560D9EAAAF66}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61C4317F-5EC0-446D-A0E6-560D9EAAAF66}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61C4317F-5EC0-446D-A0E6-560D9EAAAF66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABF24261-DC94-43ED-AC59-C0439A2A618D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABF24261-DC94-43ED-AC59-C0439A2A618D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABF24261-DC94-43ED-AC59-C0439A2A618D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABF24261-DC94-43ED-AC59-C0439A2A618D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -49,7 +49,7 @@ steps:
     restoreSolution: '**/ESFA.DC.SubmitLearnerData.API.Public.Service.Tests.csproj'
     feedsToUse: 'select'
     vstsFeed: 'dct-pkg'
-    includeNuGetOrg: false
+    includeNuGetOrg: true
 
 - task: DotNetCoreCLI@2
   displayName: 'Build Solution'
