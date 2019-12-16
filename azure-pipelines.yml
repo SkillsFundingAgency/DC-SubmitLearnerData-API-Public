@@ -35,14 +35,6 @@ steps:
   continueOnError: true  
   enabled: false
 
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: '**/*.sln'
-    feedsToUse: 'select'
-    vstsFeed: 'dct-pkg'
-    includeNuGetOrg: false
-
 - task: DotNetCoreCLI@2
   displayName: 'Restore Nuget packages'
   inputs:
@@ -50,6 +42,14 @@ steps:
     projects: '**/*.csproj'
     feedsToUse: 'select'
     vstsFeed: 'dct-pkg'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+    vstsFeed: 'dct-pkg'
+    includeNuGetOrg: false
 
 - task: DotNetCoreCLI@2
   displayName: 'Build Solution'
