@@ -38,6 +38,15 @@
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.4.4.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetZip, Version=1.13.4.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.13.4\lib\net40\DotNetZip.dll</HintPath>
+    </Reference>
+    <Reference Include="ESFA.DC.FileService, Version=0.1.26.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.FileService.0.1.26-beta0001\lib\netstandard2.0\ESFA.DC.FileService.dll</HintPath>
+    </Reference>
+    <Reference Include="ESFA.DC.FileService.Interface, Version=0.1.24.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.FileService.Interface.0.1.24-beta0001\lib\netstandard2.0\ESFA.DC.FileService.Interface.dll</HintPath>
+    </Reference>
     <Reference Include="FluentAssertions, Version=5.9.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.5.9.0\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
@@ -117,8 +126,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\AbstractAPIServiceTests.cs" />
     <Compile Include="APICacheRetrievalServiceTests.cs" />
+    <Compile Include="ReferenceDataVersionsProviderTests.cs" />
     <Compile Include="ApplicationVersionsProviderTests.cs" />
     <Compile Include="AzureContainerServiceTests.cs" />
     <Compile Include="AzureStorageRepositoryServiceTests.cs" />

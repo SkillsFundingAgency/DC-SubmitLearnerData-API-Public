@@ -1,11 +1,9 @@
 ﻿using System;
 
-namespace ESFA.DC.SubmitLearnerData.API.Public.Model
+namespace ESFA.DC.SubmitLearnerData.API.Public.Model.ReferenceData
 {
     public class Version
     {
-        public string ApplicationVersion { get; set; }
-
         public string FileName { get; set; }
 
         public int Major { get; set; }
