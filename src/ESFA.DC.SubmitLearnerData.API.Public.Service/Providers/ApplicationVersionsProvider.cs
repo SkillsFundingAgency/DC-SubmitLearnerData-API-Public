@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.SubmitLearnerData.API.Public.Interface;
-using ESFA.DC.SubmitLearnerData.API.Public.Model.Application;
+using ESFA.DC.SubmitLearnerData.API.Public.Model;
 using ESFA.DC.SubmitLearnerData.API.Public.Service.Interface;
 
 namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Providers

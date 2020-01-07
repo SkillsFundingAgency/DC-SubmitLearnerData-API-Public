@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ESFA.DC.SubmitLearnerData.API.Public.Model.Application
+namespace ESFA.DC.SubmitLearnerData.API.Public.Model
 {
     public class ApplicationVersions
     {
