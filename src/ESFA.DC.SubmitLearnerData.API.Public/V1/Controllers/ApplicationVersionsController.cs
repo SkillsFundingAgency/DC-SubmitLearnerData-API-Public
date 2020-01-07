@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.SubmitLearnerData.API.Public.Model.Application;
+using ESFA.DC.SubmitLearnerData.API.Public.Model;
 using ESFA.DC.SubmitLearnerData.API.Public.Service.Interface;
 using ESFA.DC.SubmitLearnerData.API.Public.Utils.Polly.Interface;
 using Microsoft.AspNetCore.Mvc;

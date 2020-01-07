@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace ESFA.DC.SubmitLearnerData.API.Public.Model.Application
+namespace ESFA.DC.SubmitLearnerData.API.Public.Model
 {
     public class Version
     {
-        public string ApplicationVersion { get; set; }
-
         public string FileName { get; set; }
+
+        public string VersionName { get; set; }
 
         public int Major { get; set; }
 
@@ -15,5 +15,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Model.Application
         public int Increment { get; set; }
 
         public DateTime? ReleaseDateTime { get; set; }
+
+        public ReferenceData ReferenceDataVersion { get; set; }
     }
 }
