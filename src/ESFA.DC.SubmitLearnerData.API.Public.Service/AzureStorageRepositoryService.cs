@@ -62,6 +62,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
             {
                 foreach (var fileData in ReferenceDataVersions?.Where(x => x.FileName.Contains(AzureRepositoryServiceConstants.RefdataFileNameReference)))
                 {
+                    var filename = BuildFileName(fileData.FileName);
                     var major = SplitVersion(fileData.FileName, 1);
                     var minor = SplitVersion(fileData.FileName, 2);
                     var increment = SplitVersion(fileData.FileName, 3);
@@ -70,7 +71,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
                     {
                         refDataVersions.Add(new ReferenceData
                         {
-                            FileName = fileData.FileName,
+                            FileName = filename,
                             VersionName = BuildVersionString(major, minor, increment),
                             Major = major,
                             Minor = minor,
@@ -87,6 +88,11 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
         public async Task<Stream> GetReferenceDataFile(string fileName, CancellationToken cancellationToken)
         {
             return await _fileService.OpenReadStreamAsync(AzureRepositoryServiceConstants.RefDataFilePathPrefix + fileName, _configuration.Container, cancellationToken);
+        }
+
+        private string BuildFileName(string fileNamePath)
+        {
+            return Path.GetFileName(fileNamePath);
         }
 
         private string BuildVersionString(int major, int minor, int increment)
