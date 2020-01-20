@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using ESFA.DC.SubmitLearnerData.API.Public.Model;
 using ESFA.DC.SubmitLearnerData.API.Public.Service.Interface;
 using ESFA.DC.SubmitLearnerData.API.Public.Utils.Polly.Interface;
@@ -11,10 +12,10 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.V1.Controllers
     [ApiVersion("1.0")]
     public class ApplicationVersionsController : ControllerBase
     {
-        private readonly IApplicationVersionsProvider _applicationVersionsProvider;
+        private readonly IProvider<ApplicationVersions> _applicationVersionsProvider;
         private readonly IPollyPolicies _policies;
 
-        public ApplicationVersionsController(IApplicationVersionsProvider applicationVersionsProvider, IPollyPolicies policies)
+        public ApplicationVersionsController(IProvider<ApplicationVersions> applicationVersionsProvider, IPollyPolicies policies)
         {
             _applicationVersionsProvider = applicationVersionsProvider;
             _policies = policies;
@@ -22,9 +23,9 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.V1.Controllers
 
         // GET api/values
         [HttpGet]
-        public async Task<ApplicationVersions> Get()
+        public async Task<ApplicationVersions> Get(CancellationToken cancellationToken)
         {
-            return await _policies.RequestTimeoutAsyncRetryPolicy.ExecuteAsync(() => _applicationVersionsProvider.ProvideVersions());
+            return await _policies.RequestTimeoutAsyncRetryPolicy.ExecuteAsync(() => _applicationVersionsProvider.ProvideVersions(cancellationToken));
         }
     }
 }

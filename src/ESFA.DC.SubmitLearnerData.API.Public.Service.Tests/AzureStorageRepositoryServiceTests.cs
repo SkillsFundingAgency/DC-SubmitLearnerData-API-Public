@@ -1,59 +1,162 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.FileService.Interface;
+using ESFA.DC.FileService.Interface.Model;
 using ESFA.DC.SubmitLearnerData.API.Public.Interface;
 using ESFA.DC.SubmitLearnerData.API.Public.Model;
-using ESFA.DC.SubmitLearnerData.API.Public.Service.Interface;
-using ESFA.DC.SubmitLearnerData.API.Public.Service.Tests.Abstract;
 using FluentAssertions;
-using Microsoft.Azure.Storage.Blob;
 using Moq;
 using Xunit;
 
 namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
 {
-    public class AzureStorageRepositoryServiceTests : AbstractAPIServiceTests
+    public class AzureStorageRepositoryServiceTests
     {
         [Fact]
-        public async Task RetrieveVersions()
+        public async Task DesktopApplicationVersions()
         {
+            var cancellationToken = new CancellationToken();
             IEnumerable<Version> versions = new List<Version>
             {
-                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.0.zip", ApplicationVersion = "1.0.0", Major = 1, Minor = 0, Increment = 0 },
-                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.1.zip", ApplicationVersion = "1.0.1", Major = 1, Minor = 0, Increment = 1 },
-                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.2.zip", ApplicationVersion = "1.0.2", Major = 1, Minor = 0, Increment = 2 },
-                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.3.zip", ApplicationVersion = "1.0.3", Major = 1, Minor = 0, Increment = 3 },
-                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.4.zip", ApplicationVersion = "1.0.4", Major = 1, Minor = 0, Increment = 4 },
-                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.5.zip", ApplicationVersion = "1.0.5", Major = 1, Minor = 0, Increment = 5 },
-                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.6.zip", ApplicationVersion = "1.0.6", Major = 1, Minor = 0, Increment = 6 },
-                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.7.zip", ApplicationVersion = "1.0.7", Major = 1, Minor = 0, Increment = 7 },
+                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.0.zip", VersionName = "1.0.0", Major = 1, Minor = 0, Increment = 0 },
+                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.1.zip", VersionName = "1.0.1", Major = 1, Minor = 0, Increment = 1 },
+                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.2.zip", VersionName = "1.0.2", Major = 1, Minor = 0, Increment = 2 },
+                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.3.zip", VersionName = "1.0.3", Major = 1, Minor = 0, Increment = 3 },
+                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.4.zip", VersionName = "1.0.4", Major = 1, Minor = 0, Increment = 4 },
+                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.5.zip", VersionName = "1.0.5", Major = 1, Minor = 0, Increment = 5 },
+                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.6.zip", VersionName = "1.0.6", Major = 1, Minor = 0, Increment = 6 },
+                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.7.zip", VersionName = "1.0.7", Major = 1, Minor = 0, Increment = 7 },
             };
 
-            IReadOnlyCollection<CloudBlob> blobItems = new List<CloudBlob>
+            IEnumerable<FileMetaData> fileData = new List<FileMetaData>
             {
-                new CloudBlob(new System.Uri("https://test.blob.core.windows.net/blob/desktop/1920/DC-ILR-1920-FIS-Desktop.1.0.0.zip")),
-                new CloudBlob(new System.Uri("https://test.blob.core.windows.net/blob/desktop/1920/DC-ILR-1920-FIS-Desktop.1.0.1.zip")),
-                new CloudBlob(new System.Uri("https://test.blob.core.windows.net/blob/desktop/1920/DC-ILR-1920-FIS-Desktop.1.0.2.zip")),
-                new CloudBlob(new System.Uri("https://test.blob.core.windows.net/blob/desktop/1920/DC-ILR-1920-FIS-Desktop.1.0.3.zip")),
-                new CloudBlob(new System.Uri("https://test.blob.core.windows.net/blob/desktop/1920/DC-ILR-1920-FIS-Desktop.1.0.4.zip")),
-                new CloudBlob(new System.Uri("https://test.blob.core.windows.net/blob/desktop/1920/DC-ILR-1920-FIS-Desktop.1.0.5.zip")),
-                new CloudBlob(new System.Uri("https://test.blob.core.windows.net/blob/desktop/1920/DC-ILR-1920-FIS-Desktop.1.0.6.zip")),
-                new CloudBlob(new System.Uri("https://test.blob.core.windows.net/blob/desktop/1920/DC-ILR-1920-FIS-Desktop.1.0.7.zip")),
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.0.zip" },
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.1.zip" },
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.2.zip" },
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.3.zip" },
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.4.zip" },
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.5.zip" },
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.6.zip" },
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.7.zip" },
             };
 
             var configMock = new Mock<IAPIConfiguration>();
             configMock.Setup(c => c.Container).Returns("Container");
 
-            var containerServiceMock = new Mock<IAzureContainerService>();
-            containerServiceMock.Setup(cs => cs.RetrieveContainerBlobs(configMock.Object.Container)).Returns(Task.FromResult(blobItems));
+            var fileServiceMock = new Mock<IFileService>();
+            fileServiceMock.Setup(fs => fs.GetFileMetaDataAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(fileData));
 
-            var result = await NewService(configMock.Object, containerServiceMock.Object).DesktopApplicationVersions();
+            var result = await NewService(configMock.Object, fileServiceMock.Object).DesktopApplicationVersions(cancellationToken);
 
             result.Should().BeEquivalentTo(versions);
         }
 
-        private AzureStorageRepositoryService NewService(IAPIConfiguration configuration = null, IAzureContainerService containerService = null)
+        [Fact]
+        public async Task DesktopApplicationVersions_WithRefData()
         {
-            return new AzureStorageRepositoryService(configuration, containerService);
+            var cancellationToken = new CancellationToken();
+            IEnumerable<Version> versions = new List<Version>
+            {
+                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.0.zip", VersionName = "1.0.0", Major = 1, Minor = 0, Increment = 0,
+                    ReferenceDataVersion = new ReferenceData { FileName = "FISReferenceData.1.0.1.zip", VersionName = "1.0.1", Major = 1, Minor = 0, Increment = 1, }  },
+                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.1.zip", VersionName = "1.0.1", Major = 1, Minor = 0, Increment = 1,
+                    ReferenceDataVersion = new ReferenceData { FileName = "FISReferenceData.1.0.1.zip", VersionName = "1.0.1", Major = 1, Minor = 0, Increment = 1, }  },
+                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.1.0.zip", VersionName = "1.1.0", Major = 1, Minor = 1, Increment = 0,
+                    ReferenceDataVersion = new ReferenceData { FileName = "FISReferenceData.1.1.1.zip", VersionName = "1.1.1", Major = 1, Minor = 1, Increment = 1, }  },
+                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.1.1.zip", VersionName = "1.1.1", Major = 1, Minor = 1, Increment = 1,
+                    ReferenceDataVersion = new ReferenceData { FileName = "FISReferenceData.1.1.1.zip", VersionName = "1.1.1", Major = 1, Minor = 1, Increment = 1, }  },
+                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.2.0.zip", VersionName = "1.2.0", Major = 1, Minor = 2, Increment = 0,
+                    ReferenceDataVersion = new ReferenceData { FileName = "FISReferenceData.1.2.1.zip", VersionName = "1.2.1", Major = 1, Minor = 2, Increment = 1, }  },
+                new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.2.1.zip", VersionName = "1.2.1", Major = 1, Minor = 2, Increment = 1,
+                    ReferenceDataVersion = new ReferenceData { FileName = "FISReferenceData.1.2.1.zip", VersionName = "1.2.1", Major = 1, Minor = 2, Increment = 1, }  },
+            };
+
+            IEnumerable<FileMetaData> fileDataAppVersion = new List<FileMetaData>
+            {
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.0.zip" },
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.1.zip" },
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.1.0.zip" },
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.1.1.zip" },
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.2.0.zip" },
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.2.1.zip" },
+            };
+
+            IEnumerable<FileMetaData> fileDataRefDataVersion = new List<FileMetaData>
+            {
+                new FileMetaData { FileName = "FISReferenceData.1.0.0.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.0.1.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.1.0.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.1.1.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.2.0.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.2.1.zip" },
+            };
+
+            var configMock = new Mock<IAPIConfiguration>();
+            configMock.Setup(c => c.Container).Returns("Container");
+
+            var fileServiceMock = new Mock<IFileService>();
+            fileServiceMock.SetupSequence(fs => fs.GetFileMetaDataAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(fileDataAppVersion)).Returns(Task.FromResult(fileDataRefDataVersion));
+
+            var result = await NewService(configMock.Object, fileServiceMock.Object).DesktopApplicationVersions(cancellationToken);
+
+            result.Should().BeEquivalentTo(versions.OrderByDescending(f => f.FileName));
+        }
+
+        [Fact]
+        public async Task DesktopReferenceDataVersions()
+        {
+            var cancellationToken = new CancellationToken();
+
+            IEnumerable<FileMetaData> fileData = new List<FileMetaData>
+            {
+                new FileMetaData { FileName = "FISReferenceData.1.0.0.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.0.1.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.1.0.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.1.1.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.2.0.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.2.1.zip" },
+            };
+
+            var expectedVersion = new ReferenceData
+            {
+                FileName = "FISReferenceData.1.2.1.zip",
+                VersionName = "1.2.1",
+                Major = 1,
+                Minor = 2,
+                Increment = 1,
+            };
+
+            var configMock = new Mock<IAPIConfiguration>();
+            configMock.Setup(c => c.Container).Returns("Container");
+
+            var result = await NewService(configMock.Object).LatestReferenceDataVersionForSchema(2, fileData, cancellationToken);
+
+            result.Should().BeEquivalentTo(expectedVersion);
+        }
+
+        [Fact]
+        public async Task GetReferenceDataFile()
+        {
+            var cancellationToken = new CancellationToken();
+            Stream stream = new MemoryStream();
+
+            var configMock = new Mock<IAPIConfiguration>();
+            configMock.Setup(c => c.Container).Returns("Container");
+
+            var fileServiceMock = new Mock<IFileService>();
+            fileServiceMock.Setup(fs => fs.OpenReadStreamAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(stream));
+
+            var result = await NewService(configMock.Object, fileServiceMock.Object).GetReferenceDataFile("file", cancellationToken);
+
+            fileServiceMock.Verify();
+        }
+
+        private AzureStorageRepositoryService NewService(IAPIConfiguration configuration = null, IFileService fileService = null)
+        {
+            return new AzureStorageRepositoryService(configuration, fileService);
         }
     }
 }

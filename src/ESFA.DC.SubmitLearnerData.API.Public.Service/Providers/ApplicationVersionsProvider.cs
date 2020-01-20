@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.SubmitLearnerData.API.Public.Interface;
 using ESFA.DC.SubmitLearnerData.API.Public.Model;
@@ -6,7 +7,7 @@ using ESFA.DC.SubmitLearnerData.API.Public.Service.Interface;
 
 namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Providers
 {
-    public class ApplicationVersionsProvider : IApplicationVersionsProvider
+    public class ApplicationVersionsProvider : IProvider<ApplicationVersions>
     {
         private const string _cacheEntry = "Versions";
         private const int _cacheExpiration = 5;
@@ -22,14 +23,14 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Providers
             _configuration = configuration;
         }
 
-        public async Task<ApplicationVersions> ProvideVersions()
+        public async Task<ApplicationVersions> ProvideVersions(CancellationToken cancellationToken)
         {
-            return await _apiCacheRetrieval.GetOrCreate(_cacheEntry, _cacheExpiration, BuildApplicationVersions());
+            return await _apiCacheRetrieval.GetOrCreate(_cacheEntry, _cacheExpiration, BuildApplicationVersions(cancellationToken));
         }
 
-        private async Task<ApplicationVersions> BuildApplicationVersions()
+        private async Task<ApplicationVersions> BuildApplicationVersions(CancellationToken cancellationToken)
         {
-            var versions = await _applicationVersionsRepositoryService.DesktopApplicationVersions();
+            var versions = await _applicationVersionsRepositoryService.DesktopApplicationVersions(cancellationToken);
 
             return new ApplicationVersions
             {

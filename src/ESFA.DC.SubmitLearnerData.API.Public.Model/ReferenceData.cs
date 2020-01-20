@@ -2,7 +2,7 @@
 
 namespace ESFA.DC.SubmitLearnerData.API.Public.Model
 {
-    public class Version
+    public class ReferenceData
     {
         public string FileName { get; set; }
 
@@ -15,7 +15,5 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Model
         public int Increment { get; set; }
 
         public DateTime? ReleaseDateTime { get; set; }
-
-        public ReferenceData ReferenceDataVersion { get; set; }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Autofac.Integration.Mvc;
-using Autofac.Integration.WebApi;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +14,10 @@ using System.Reflection;
 using ESFA.DC.SubmitLearnerData.API.Public.Interface;
 using ESFA.DC.SubmitLearnerData.API.Public.Modules;
 using ESFA.DC.SubmitLearnerData.API.Public.Config;
+using ESFA.DC.FileService.Config;
+using ESFA.DC.FileService.Config.Interface;
+using ESFA.DC.FileService;
+using ESFA.DC.FileService.Interface;
 
 namespace ESFA.DC.SubmitLearnerData.API.Public
 {
@@ -106,12 +108,21 @@ namespace ESFA.DC.SubmitLearnerData.API.Public
             var containerBuilder = new ContainerBuilder();
 
             containerBuilder.Populate(services);
-            containerBuilder.RegisterControllers(Assembly.GetExecutingAssembly()); //Register MVC Controllers
-            containerBuilder.RegisterApiControllers(Assembly.GetExecutingAssembly()); //Register WebApi Controllers
+           // containerBuilder.RegisterControllers(Assembly.GetExecutingAssembly()); //Register MVC Controllers
+           // containerBuilder.RegisterApiControllers(Assembly.GetExecutingAssembly()); //Register WebApi Controllers
 
             containerBuilder.RegisterInstance<APIConfiguration>(config).As<IAPIConfiguration>();
             containerBuilder.RegisterModule<APIModule>();
             containerBuilder.RegisterModule(new LoggerModule(config));
+
+            var azureConfig = new AzureStorageFileServiceConfiguration
+            {
+                ConnectionString = config.AzureStorageConnectionString
+            };
+
+            containerBuilder.RegisterInstance(azureConfig).As<IAzureStorageFileServiceConfiguration>();
+
+            containerBuilder.RegisterType<AzureStorageFileService>().As<IFileService>();
 
             return containerBuilder;
         }
