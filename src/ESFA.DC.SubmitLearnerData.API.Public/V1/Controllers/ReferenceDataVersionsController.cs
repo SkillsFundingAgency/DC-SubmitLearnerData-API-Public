@@ -23,15 +23,11 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.V1.Controllers
 
         [HttpGet]
         [Route("{fileReference}")]
-        public async Task<FileContentResult> Get(string fileReference, CancellationToken cancellationToken)
+        public async Task<FileStreamResult> Get(string fileReference, CancellationToken cancellationToken)
         {
-            using (var fileStream = await _fileProviderService.ProvideFile(fileReference, cancellationToken))
-            {
-                var output = new MemoryStream();
-                await fileStream.CopyToAsync(output);
+            var fileStream = await _fileProviderService.ProvideFile(fileReference, cancellationToken);
 
-                return new FileContentResult(output.ToArray(), "application/zip") { FileDownloadName = fileReference };
-            }
+            return new FileStreamResult(fileStream, "application/zip") { FileDownloadName = fileReference };
         }
     }
 }
