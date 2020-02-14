@@ -45,8 +45,9 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
 
             var configMock = new Mock<IAPIConfiguration>();
             configMock.Setup(c => c.SubmitLearnerDataDownloadsUrl).Returns("TestURl");
+            configMock.Setup(c => c.CacheExpiration).Returns(5);
 
-            var result = await NewService(repositoryServiceMock.Object, apiCacheProviderMock.Object).ProvideVersions(cancellationToken);
+            var result = await NewService(repositoryServiceMock.Object, apiCacheProviderMock.Object, configMock.Object).ProvideVersions(cancellationToken);
 
             result.Should().BeEquivalentTo(appVersions);
         }
