@@ -108,9 +108,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public
             var containerBuilder = new ContainerBuilder();
 
             containerBuilder.Populate(services);
-           // containerBuilder.RegisterControllers(Assembly.GetExecutingAssembly()); //Register MVC Controllers
-           // containerBuilder.RegisterApiControllers(Assembly.GetExecutingAssembly()); //Register WebApi Controllers
-
+         
             containerBuilder.RegisterInstance<APIConfiguration>(config).As<IAPIConfiguration>();
             containerBuilder.RegisterModule<APIModule>();
             containerBuilder.RegisterModule(new LoggerModule(config));

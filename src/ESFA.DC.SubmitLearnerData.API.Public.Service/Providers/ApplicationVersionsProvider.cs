@@ -10,7 +10,6 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Providers
     public class ApplicationVersionsProvider : IProvider<ApplicationVersions>
     {
         private const string _cacheEntry = "Versions";
-        private const int _cacheExpiration = 5;
 
         private readonly IRepositoryService _applicationVersionsRepositoryService;
         private readonly IAPICacheRetrievalService _apiCacheRetrieval;
@@ -25,7 +24,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Providers
 
         public async Task<ApplicationVersions> ProvideVersions(CancellationToken cancellationToken)
         {
-            return await _apiCacheRetrieval.GetOrCreate(_cacheEntry, _cacheExpiration, BuildApplicationVersions(cancellationToken));
+            return await _apiCacheRetrieval.GetOrCreate(_cacheEntry, _configuration.CacheExpiration, BuildApplicationVersions(cancellationToken));
         }
 
         private async Task<ApplicationVersions> BuildApplicationVersions(CancellationToken cancellationToken)

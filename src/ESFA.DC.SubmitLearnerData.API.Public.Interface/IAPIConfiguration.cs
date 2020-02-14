@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace ESFA.DC.SubmitLearnerData.API.Public.Interface
+﻿namespace ESFA.DC.SubmitLearnerData.API.Public.Interface
 {
     public interface IAPIConfiguration
     {
@@ -12,5 +9,15 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Interface
         string SubmitLearnerDataDownloadsUrl { get; }
 
         string Container { get; }
+
+        string RefDataFileNameReference { get; }
+
+        string RefDataFilePathPrefix { get; }
+
+        string ApplicationFileNameReference { get; }
+
+        string ApplicationFilePathPrefix { get; }
+
+        int CacheExpiration { get; }
     }
 }

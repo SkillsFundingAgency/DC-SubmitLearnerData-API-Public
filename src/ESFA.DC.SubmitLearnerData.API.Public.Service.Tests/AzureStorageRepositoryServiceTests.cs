@@ -41,15 +41,12 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
                 new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.5.zip" },
                 new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.6.zip" },
                 new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.7.zip" },
-            };
-
-            var configMock = new Mock<IAPIConfiguration>();
-            configMock.Setup(c => c.Container).Returns("Container");
+            };     
 
             var fileServiceMock = new Mock<IFileService>();
             fileServiceMock.Setup(fs => fs.GetFileMetaDataAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(fileData));
 
-            var result = await NewService(configMock.Object, fileServiceMock.Object).DesktopApplicationVersions(cancellationToken);
+            var result = await NewService(fileService: fileServiceMock.Object).DesktopApplicationVersions(cancellationToken);
 
             result.Should().BeEquivalentTo(versions);
         }
@@ -94,13 +91,10 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
                 new FileMetaData { FileName = "FISReferenceData.1.2.1.zip" },
             };
 
-            var configMock = new Mock<IAPIConfiguration>();
-            configMock.Setup(c => c.Container).Returns("Container");
-
             var fileServiceMock = new Mock<IFileService>();
             fileServiceMock.SetupSequence(fs => fs.GetFileMetaDataAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(fileDataAppVersion)).Returns(Task.FromResult(fileDataRefDataVersion));
 
-            var result = await NewService(configMock.Object, fileServiceMock.Object).DesktopApplicationVersions(cancellationToken);
+            var result = await NewService(fileService: fileServiceMock.Object).DesktopApplicationVersions(cancellationToken);
 
             result.Should().BeEquivalentTo(versions.OrderByDescending(f => f.FileName));
         }
@@ -129,10 +123,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
                 Increment = 1,
             };
 
-            var configMock = new Mock<IAPIConfiguration>();
-            configMock.Setup(c => c.Container).Returns("Container");
-
-            var result = await NewService(configMock.Object).LatestReferenceDataVersionForSchema(2, fileData, cancellationToken);
+            var result = await NewService().LatestReferenceDataVersionForSchema(2, fileData, cancellationToken);
 
             result.Should().BeEquivalentTo(expectedVersion);
         }
@@ -143,20 +134,23 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
             var cancellationToken = new CancellationToken();
             Stream stream = new MemoryStream();
 
-            var configMock = new Mock<IAPIConfiguration>();
-            configMock.Setup(c => c.Container).Returns("Container");
-
             var fileServiceMock = new Mock<IFileService>();
             fileServiceMock.Setup(fs => fs.OpenReadStreamAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(stream));
 
-            var result = await NewService(configMock.Object, fileServiceMock.Object).GetReferenceDataFile("file", cancellationToken);
+            var result = await NewService(fileService: fileServiceMock.Object).GetReferenceDataFile("file", cancellationToken);
 
             fileServiceMock.Verify();
         }
 
         private AzureStorageRepositoryService NewService(IAPIConfiguration configuration = null, IFileService fileService = null)
         {
-            return new AzureStorageRepositoryService(configuration, fileService);
+            var configMock = new Mock<IAPIConfiguration>();
+            configMock.Setup(c => c.Container).Returns("Container");
+            configMock.Setup(c => c.ApplicationFileNameReference).Returns("Desktop");
+            configMock.Setup(c => c.RefDataFileNameReference).Returns("FISReferenceData");
+            configMock.Setup(c => c.RefDataFilePathPrefix).Returns("DesktopReferenceData/1920");
+
+            return new AzureStorageRepositoryService(configuration ?? configMock.Object, fileService);
         }
     }
 }
