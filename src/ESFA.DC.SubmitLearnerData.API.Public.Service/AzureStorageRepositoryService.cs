@@ -13,6 +13,8 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
 {
     public class AzureStorageRepositoryService : IRepositoryService
     {
+        private readonly string _referenceDataDateFormat = "yyyyMMdHHmm";
+
         private readonly IAPIConfiguration _configuration;
         private readonly IFileService _fileService;
 
@@ -65,17 +67,24 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
                     var major = SplitVersion(fileData.FileName, 1);
                     var minor = SplitVersion(fileData.FileName, 2);
                     var increment = SplitVersion(fileData.FileName, 3);
+                    var dateString = filename.Split('.')[4];
+                    var date = System.DateTime.TryParseExact(dateString, _referenceDataDateFormat, null, System.Globalization.DateTimeStyles.None, out var releaseDate) ? releaseDate : default(System.DateTime?);
+
+                    if (applicationMinorVersion == 1)
+                    {
+
+                    }
 
                     if (minor == applicationMinorVersion)
                     {
                         refDataVersions.Add(new ReferenceData
                         {
                             FileName = filename,
-                            VersionName = BuildVersionString(major, minor, increment),
+                            VersionName = BuildVersionString(major, minor, increment, dateString),
                             Major = major,
                             Minor = minor,
                             Increment = increment,
-                            ReleaseDateTime = fileData.DateCreated.HasValue ? fileData.DateCreated.Value.Date : (System.DateTime?)null
+                            ReleaseDateTime = date
                         });
                     }
                 }
@@ -97,6 +106,11 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
         private string BuildVersionString(int major, int minor, int increment)
         {
             return string.Concat(major, ".", minor, ".", increment);
+        }
+
+        private string BuildVersionString(int major, int minor, int increment, string dateString)
+        {
+            return string.Concat(major, ".", minor, ".", increment, ".", dateString);
         }
 
         private int SplitVersion(string fileName, int index)
