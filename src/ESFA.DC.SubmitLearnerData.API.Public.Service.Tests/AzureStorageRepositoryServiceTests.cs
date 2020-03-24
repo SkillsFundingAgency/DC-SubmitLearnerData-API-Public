@@ -41,7 +41,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
                 new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.5.zip" },
                 new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.6.zip" },
                 new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.7.zip" },
-            };     
+            };
 
             var fileServiceMock = new Mock<IFileService>();
             fileServiceMock.Setup(fs => fs.GetFileMetaDataAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(fileData));
@@ -58,17 +58,23 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
             IEnumerable<Version> versions = new List<Version>
             {
                 new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.0.zip", VersionName = "1.0.0", Major = 1, Minor = 0, Increment = 0,
-                    ReferenceDataVersion = new ReferenceData { FileName = "FISReferenceData.1.0.1.zip", VersionName = "1.0.1", Major = 1, Minor = 0, Increment = 1, }  },
+                    ReferenceDataVersion = new ReferenceData
+                    { FileName = "FISReferenceData.1.0.1.202003010900.zip", VersionName = "1.0.1.202003010900", Major = 1, Minor = 0, Increment = 1, ReleaseDateTime = new System.DateTime(2020, 03, 01, 9, 0, 0) }  },
                 new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.0.1.zip", VersionName = "1.0.1", Major = 1, Minor = 0, Increment = 1,
-                    ReferenceDataVersion = new ReferenceData { FileName = "FISReferenceData.1.0.1.zip", VersionName = "1.0.1", Major = 1, Minor = 0, Increment = 1, }  },
+                    ReferenceDataVersion = new ReferenceData
+                    { FileName = "FISReferenceData.1.0.1.202003010900.zip", VersionName = "1.0.1.202003010900", Major = 1, Minor = 0, Increment = 1, ReleaseDateTime = new System.DateTime(2020, 03, 01, 9, 0, 0) }  },
                 new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.1.0.zip", VersionName = "1.1.0", Major = 1, Minor = 1, Increment = 0,
-                    ReferenceDataVersion = new ReferenceData { FileName = "FISReferenceData.1.1.1.zip", VersionName = "1.1.1", Major = 1, Minor = 1, Increment = 1, }  },
+                    ReferenceDataVersion = new ReferenceData
+                    { FileName = "FISReferenceData.1.1.1.202003010900.zip", VersionName = "1.1.1.202003010900", Major = 1, Minor = 1, Increment = 1, ReleaseDateTime = new System.DateTime(2020, 03, 01, 9, 0, 0) }  },
                 new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.1.1.zip", VersionName = "1.1.1", Major = 1, Minor = 1, Increment = 1,
-                    ReferenceDataVersion = new ReferenceData { FileName = "FISReferenceData.1.1.1.zip", VersionName = "1.1.1", Major = 1, Minor = 1, Increment = 1, }  },
+                    ReferenceDataVersion = new ReferenceData
+                    { FileName = "FISReferenceData.1.1.1.202003010900.zip", VersionName = "1.1.1.202003010900", Major = 1, Minor = 1, Increment = 1, ReleaseDateTime = new System.DateTime(2020, 03, 01, 9, 0, 0) }  },
                 new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.2.0.zip", VersionName = "1.2.0", Major = 1, Minor = 2, Increment = 0,
-                    ReferenceDataVersion = new ReferenceData { FileName = "FISReferenceData.1.2.1.zip", VersionName = "1.2.1", Major = 1, Minor = 2, Increment = 1, }  },
+                    ReferenceDataVersion = new ReferenceData
+                    { FileName = "FISReferenceData.1.2.1.202003010900.zip", VersionName = "1.2.1.202003010900", Major = 1, Minor = 2, Increment = 1, ReleaseDateTime = new System.DateTime(2020, 03, 01, 9, 0, 0) }  },
                 new Version { FileName = "DC-ILR-1920-FIS-Desktop.1.2.1.zip", VersionName = "1.2.1", Major = 1, Minor = 2, Increment = 1,
-                    ReferenceDataVersion = new ReferenceData { FileName = "FISReferenceData.1.2.1.zip", VersionName = "1.2.1", Major = 1, Minor = 2, Increment = 1, }  },
+                    ReferenceDataVersion = new ReferenceData
+                    { FileName = "FISReferenceData.1.2.1.202003010900.zip", VersionName = "1.2.1.202003010900", Major = 1, Minor = 2, Increment = 1, ReleaseDateTime = new System.DateTime(2020, 03, 01, 9, 0, 0) }  },
             };
 
             IEnumerable<FileMetaData> fileDataAppVersion = new List<FileMetaData>
@@ -83,12 +89,12 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
 
             IEnumerable<FileMetaData> fileDataRefDataVersion = new List<FileMetaData>
             {
-                new FileMetaData { FileName = "FISReferenceData.1.0.0.zip" },
-                new FileMetaData { FileName = "FISReferenceData.1.0.1.zip" },
-                new FileMetaData { FileName = "FISReferenceData.1.1.0.zip" },
-                new FileMetaData { FileName = "FISReferenceData.1.1.1.zip" },
-                new FileMetaData { FileName = "FISReferenceData.1.2.0.zip" },
-                new FileMetaData { FileName = "FISReferenceData.1.2.1.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.0.0.202003010900.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.0.1.202003010900.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.1.0.202003010900.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.1.1.202003010900.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.2.0.202003010900.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.2.1.202003010900.zip" },
             };
 
             var fileServiceMock = new Mock<IFileService>();
@@ -106,21 +112,22 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
 
             IEnumerable<FileMetaData> fileData = new List<FileMetaData>
             {
-                new FileMetaData { FileName = "FISReferenceData.1.0.0.zip" },
-                new FileMetaData { FileName = "FISReferenceData.1.0.1.zip" },
-                new FileMetaData { FileName = "FISReferenceData.1.1.0.zip" },
-                new FileMetaData { FileName = "FISReferenceData.1.1.1.zip" },
-                new FileMetaData { FileName = "FISReferenceData.1.2.0.zip" },
-                new FileMetaData { FileName = "FISReferenceData.1.2.1.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.0.0.202003010900.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.0.1.202003010900.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.1.0.202003010900.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.1.1.202003010900.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.2.0.202003010900.zip" },
+                new FileMetaData { FileName = "FISReferenceData.1.2.1.202003010900.zip" },
             };
 
             var expectedVersion = new ReferenceData
             {
-                FileName = "FISReferenceData.1.2.1.zip",
-                VersionName = "1.2.1",
+                FileName = "FISReferenceData.1.2.1.202003010900.zip",
+                VersionName = "1.2.1.202003010900",
                 Major = 1,
                 Minor = 2,
                 Increment = 1,
+                ReleaseDateTime = new System.DateTime(2020, 03, 01, 9, 0, 0)
             };
 
             var result = await NewService().LatestReferenceDataVersionForSchema(2, fileData, cancellationToken);
