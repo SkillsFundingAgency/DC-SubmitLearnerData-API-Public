@@ -70,11 +70,6 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
                     var dateString = filename.Split('.')[4];
                     var date = System.DateTime.TryParseExact(dateString, _referenceDataDateFormat, null, System.Globalization.DateTimeStyles.None, out var releaseDate) ? releaseDate : default(System.DateTime?);
 
-                    if (applicationMinorVersion == 1)
-                    {
-
-                    }
-
                     if (minor == applicationMinorVersion)
                     {
                         refDataVersions.Add(new ReferenceData
