@@ -28,8 +28,8 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
         {
             var desktopVersions = new List<Version>();
 
-            var applicationVersions = await _fileService.GetFileMetaDataAsync(_configuration.Container, _configuration.ApplicationFilePathPrefix, true, cancellationToken);
-            var referenceDataVersions = await _fileService.GetFileMetaDataAsync(_configuration.Container, _configuration.RefDataFilePathPrefix, true, cancellationToken);
+            var applicationVersions = await _fileService.GetFileMetaDataAsync(_configuration.Container, _configuration.ApplicationFilePathPrefix, true, cancellationToken, false);
+            var referenceDataVersions = await _fileService.GetFileMetaDataAsync(_configuration.Container, _configuration.RefDataFilePathPrefix, true, cancellationToken, false);
 
             if (applicationVersions != null)
             {
