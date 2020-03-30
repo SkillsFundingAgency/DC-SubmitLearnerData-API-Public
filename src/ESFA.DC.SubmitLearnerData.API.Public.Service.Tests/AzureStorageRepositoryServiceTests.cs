@@ -44,7 +44,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
             };
 
             var fileServiceMock = new Mock<IFileService>();
-            fileServiceMock.Setup(fs => fs.GetFileMetaDataAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(fileData));
+            fileServiceMock.Setup(fs => fs.GetFileMetaDataAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>(), false)).Returns(Task.FromResult(fileData));
 
             var result = await NewService(fileService: fileServiceMock.Object).DesktopApplicationVersions(cancellationToken);
 
@@ -98,7 +98,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
             };
 
             var fileServiceMock = new Mock<IFileService>();
-            fileServiceMock.SetupSequence(fs => fs.GetFileMetaDataAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(fileDataAppVersion)).Returns(Task.FromResult(fileDataRefDataVersion));
+            fileServiceMock.SetupSequence(fs => fs.GetFileMetaDataAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>(), false)).Returns(Task.FromResult(fileDataAppVersion)).Returns(Task.FromResult(fileDataRefDataVersion));
 
             var result = await NewService(fileService: fileServiceMock.Object).DesktopApplicationVersions(cancellationToken);
 
