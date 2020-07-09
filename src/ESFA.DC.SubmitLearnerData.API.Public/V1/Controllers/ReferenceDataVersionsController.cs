@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ESFA.DC.SubmitLearnerData.API.Public.V1.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class ReferenceDataVersionsController : ControllerBase
     {
         private readonly IFileProviderService _fileProviderService;
