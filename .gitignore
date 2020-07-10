@@ -328,4 +328,4 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
-/src/ESFA.DC.SubmitLearnerData.API.Public/appsettings.hari.json
+/src/ESFA.DC.SubmitLearnerData.API.Public/appsettings.*.json
