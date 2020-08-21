@@ -85,7 +85,12 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
                 }
             }
 
-            return refDataVersions.OrderByDescending(o => o.FileName).FirstOrDefault();
+            return refDataVersions
+                .OrderByDescending(o => o.Major)
+                .ThenByDescending(o => o.Minor)
+                .ThenByDescending(o => o.Increment)
+                .ThenByDescending(o => o.ReleaseDateTime)
+                .FirstOrDefault();
         }
 
         public async Task<Stream> GetReferenceDataFile(string fileName, CancellationToken cancellationToken)
