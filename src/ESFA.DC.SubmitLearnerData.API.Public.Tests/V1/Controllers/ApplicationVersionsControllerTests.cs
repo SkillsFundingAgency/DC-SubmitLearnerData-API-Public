@@ -19,6 +19,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Tests.V1.Controllers
         [Fact]
         public async Task Get()
         {
+            var academicYear = "1920";
             var cancellationToken = CancellationToken.None;
 
             var versions = new List<Version>
@@ -44,14 +45,14 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Tests.V1.Controllers
             };
 
             var providerMock = new Mock<IProvider<ApplicationVersions>>();
-            providerMock.Setup(pm => pm.ProvideVersions(cancellationToken)).Returns(Task.FromResult(appVersions));
+            providerMock.Setup(pm => pm.ProvideVersions(academicYear, cancellationToken)).Returns(Task.FromResult(appVersions));
 
             var loggerMock = new Mock<ILogger>();
             var policies = new PollyPolicies(loggerMock.Object);
 
             var controller = NewController(providerMock.Object, pollyPolicies: policies);
 
-            var result = await controller.Get(cancellationToken);
+            var result = await controller.Get(academicYear, cancellationToken);
             result.Should().Be(appVersions);
         }
 

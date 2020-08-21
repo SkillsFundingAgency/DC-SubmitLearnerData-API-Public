@@ -9,7 +9,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.V1.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/{academicYear}/[controller]")]
     public class ReferenceDataVersionsController : ControllerBase
     {
         private readonly IFileProviderService _fileProviderService;
@@ -23,9 +23,9 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.V1.Controllers
 
         [HttpGet]
         [Route("{fileReference}")]
-        public async Task<FileStreamResult> Get(string fileReference, CancellationToken cancellationToken)
+        public async Task<FileStreamResult> Get(string academicYear, string fileReference, CancellationToken cancellationToken)
         {
-            var fileStream = await _fileProviderService.ProvideFile(fileReference, cancellationToken);
+            var fileStream = await _fileProviderService.ProvideFile(string.Concat(academicYear, "/", fileReference), cancellationToken);
 
             return new FileStreamResult(fileStream, "application/zip") { FileDownloadName = fileReference };
         }

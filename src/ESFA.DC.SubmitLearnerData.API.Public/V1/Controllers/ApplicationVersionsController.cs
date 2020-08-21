@@ -9,7 +9,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.V1.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/{academicYear}/[controller]")]
     public class ApplicationVersionsController : ControllerBase
     {
         private readonly IProvider<ApplicationVersions> _applicationVersionsProvider;
@@ -23,9 +23,9 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.V1.Controllers
 
         // GET api/values
         [HttpGet]
-        public async Task<ApplicationVersions> Get(CancellationToken cancellationToken)
+        public async Task<ApplicationVersions> Get(string academicYear, CancellationToken cancellationToken)
         {
-            return await _policies.RequestTimeoutAsyncRetryPolicy.ExecuteAsync(() => _applicationVersionsProvider.ProvideVersions(cancellationToken));
+            return await _policies.RequestTimeoutAsyncRetryPolicy.ExecuteAsync(() => _applicationVersionsProvider.ProvideVersions(academicYear, cancellationToken));
         }
     }
 }
