@@ -17,6 +17,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
         [Fact]
         public async Task ProvideVersions()
         {
+            var academicYear = "1920";
             var cancellationToken = CancellationToken.None;
             IEnumerable<Version> versions = new List<Version>
             {
@@ -38,16 +39,16 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
             };
 
             var repositoryServiceMock = new Mock<IRepositoryService>();
-            repositoryServiceMock.Setup(rs => rs.DesktopApplicationVersions(cancellationToken)).Returns(Task.FromResult(versions));
+            repositoryServiceMock.Setup(rs => rs.DesktopApplicationVersions(academicYear, cancellationToken)).Returns(Task.FromResult(versions));
 
             var apiCacheProviderMock = new Mock<IAPICacheRetrievalService>();
-            apiCacheProviderMock.Setup(cp => cp.GetOrCreate("Versions", It.IsAny<int>(), It.IsAny<Task<ApplicationVersions>>())).Returns(Task.FromResult(appVersions));
+            apiCacheProviderMock.Setup(cp => cp.GetOrCreate("Versions1920", It.IsAny<int>(), It.IsAny<Task<ApplicationVersions>>())).Returns(Task.FromResult(appVersions));
 
             var configMock = new Mock<IAPIConfiguration>();
             configMock.Setup(c => c.SubmitLearnerDataDownloadsUrl).Returns("TestURl");
             configMock.Setup(c => c.CacheExpiration).Returns(5);
 
-            var result = await NewService(repositoryServiceMock.Object, apiCacheProviderMock.Object, configMock.Object).ProvideVersions(cancellationToken);
+            var result = await NewService(repositoryServiceMock.Object, apiCacheProviderMock.Object, configMock.Object).ProvideVersions(academicYear, cancellationToken);
 
             result.Should().BeEquivalentTo(appVersions);
         }

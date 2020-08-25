@@ -22,14 +22,14 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Providers
             _configuration = configuration;
         }
 
-        public async Task<ApplicationVersions> ProvideVersions(CancellationToken cancellationToken)
+        public async Task<ApplicationVersions> ProvideVersions(string academicYear, CancellationToken cancellationToken)
         {
-            return await _apiCacheRetrieval.GetOrCreate(_cacheEntry, _configuration.CacheExpiration, BuildApplicationVersions(cancellationToken));
+            return await _apiCacheRetrieval.GetOrCreate(string.Concat(_cacheEntry, academicYear), _configuration.CacheExpiration, BuildApplicationVersions(academicYear, cancellationToken));
         }
 
-        private async Task<ApplicationVersions> BuildApplicationVersions(CancellationToken cancellationToken)
+        private async Task<ApplicationVersions> BuildApplicationVersions(string academicYear, CancellationToken cancellationToken)
         {
-            var versions = await _applicationVersionsRepositoryService.DesktopApplicationVersions(cancellationToken);
+            var versions = await _applicationVersionsRepositoryService.DesktopApplicationVersions(academicYear, cancellationToken);
 
             return new ApplicationVersions
             {

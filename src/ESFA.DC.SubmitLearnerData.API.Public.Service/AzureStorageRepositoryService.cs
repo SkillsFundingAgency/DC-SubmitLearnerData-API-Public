@@ -24,12 +24,12 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
             _fileService = fileService;
         }
 
-        public async Task<IEnumerable<Version>> DesktopApplicationVersions(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Version>> DesktopApplicationVersions(string academicYear, CancellationToken cancellationToken)
         {
             var desktopVersions = new List<Version>();
 
-            var applicationVersions = await _fileService.GetFileMetaDataAsync(_configuration.Container, _configuration.ApplicationFilePathPrefix, true, cancellationToken, false);
-            var referenceDataVersions = await _fileService.GetFileMetaDataAsync(_configuration.Container, _configuration.RefDataFilePathPrefix, true, cancellationToken, false);
+            var applicationVersions = await _fileService.GetFileMetaDataAsync(_configuration.Container, string.Concat(_configuration.ApplicationFilePathPrefix, "/", academicYear), true, cancellationToken, false);
+            var referenceDataVersions = await _fileService.GetFileMetaDataAsync(_configuration.Container, string.Concat(_configuration.RefDataFilePathPrefix, "/", academicYear), true, cancellationToken, false);
 
             if (applicationVersions != null)
             {
@@ -85,7 +85,12 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
                 }
             }
 
-            return refDataVersions.OrderByDescending(o => o.FileName).FirstOrDefault();
+            return refDataVersions
+                .OrderByDescending(o => o.Major)
+                .ThenByDescending(o => o.Minor)
+                .ThenByDescending(o => o.Increment)
+                .ThenByDescending(o => o.ReleaseDateTime)
+                .FirstOrDefault();
         }
 
         public async Task<Stream> GetReferenceDataFile(string fileName, CancellationToken cancellationToken)

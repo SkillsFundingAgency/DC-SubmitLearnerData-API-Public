@@ -8,7 +8,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Interface
 {
     public interface IRepositoryService
     {
-        Task<IEnumerable<Version>> DesktopApplicationVersions(CancellationToken cancellationToken);
+        Task<IEnumerable<Version>> DesktopApplicationVersions(string academicYear, CancellationToken cancellationToken);
 
         Task<Stream> GetReferenceDataFile(string fileName, CancellationToken cancellationToken);
     }

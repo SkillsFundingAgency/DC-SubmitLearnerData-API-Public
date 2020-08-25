@@ -46,7 +46,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
             var fileServiceMock = new Mock<IFileService>();
             fileServiceMock.Setup(fs => fs.GetFileMetaDataAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>(), false)).Returns(Task.FromResult(fileData));
 
-            var result = await NewService(fileService: fileServiceMock.Object).DesktopApplicationVersions(cancellationToken);
+            var result = await NewService(fileService: fileServiceMock.Object).DesktopApplicationVersions("1920", cancellationToken);
 
             result.Should().BeEquivalentTo(versions);
         }
@@ -100,7 +100,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
             var fileServiceMock = new Mock<IFileService>();
             fileServiceMock.SetupSequence(fs => fs.GetFileMetaDataAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>(), false)).Returns(Task.FromResult(fileDataAppVersion)).Returns(Task.FromResult(fileDataRefDataVersion));
 
-            var result = await NewService(fileService: fileServiceMock.Object).DesktopApplicationVersions(cancellationToken);
+            var result = await NewService(fileService: fileServiceMock.Object).DesktopApplicationVersions("1920", cancellationToken);
 
             result.Should().BeEquivalentTo(versions.OrderByDescending(f => f.FileName));
         }
