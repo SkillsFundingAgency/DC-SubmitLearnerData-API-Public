@@ -42,7 +42,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
             repositoryServiceMock.Setup(rs => rs.DesktopApplicationVersions(academicYear, cancellationToken)).Returns(Task.FromResult(versions));
 
             var apiCacheProviderMock = new Mock<IAPICacheRetrievalService>();
-            apiCacheProviderMock.Setup(cp => cp.GetOrCreate("Versions", It.IsAny<int>(), It.IsAny<Task<ApplicationVersions>>())).Returns(Task.FromResult(appVersions));
+            apiCacheProviderMock.Setup(cp => cp.GetOrCreate("Versions1920", It.IsAny<int>(), It.IsAny<Task<ApplicationVersions>>())).Returns(Task.FromResult(appVersions));
 
             var configMock = new Mock<IAPIConfiguration>();
             configMock.Setup(c => c.SubmitLearnerDataDownloadsUrl).Returns("TestURl");
