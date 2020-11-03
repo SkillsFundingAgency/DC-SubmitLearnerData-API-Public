@@ -1,8 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.SubmitLearnerData.API.Public.Service.Interface;
+using ESFA.DC.SubmitLearnerData.API.Public.Interface;
 using ESFA.DC.SubmitLearnerData.API.Public.Service.Providers;
 using Moq;
 using Xunit;

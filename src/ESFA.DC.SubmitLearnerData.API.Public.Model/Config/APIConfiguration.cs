@@ -1,8 +1,6 @@
-﻿using ESFA.DC.SubmitLearnerData.API.Public.Interface;
-
-namespace ESFA.DC.SubmitLearnerData.API.Public.Config
+﻿namespace ESFA.DC.SubmitLearnerData.API.Public.Config
 {
-    public class APIConfiguration : IAPIConfiguration
+    public class APIConfiguration
     {
         public string AzureStorageConnectionString { get; set;}
 

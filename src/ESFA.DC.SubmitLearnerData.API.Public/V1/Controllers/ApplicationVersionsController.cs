@@ -1,7 +1,7 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.SubmitLearnerData.API.Public.Model;
-using ESFA.DC.SubmitLearnerData.API.Public.Service.Interface;
+using ESFA.DC.SubmitLearnerData.API.Public.Interface;
 using ESFA.DC.SubmitLearnerData.API.Public.Utils.Polly.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,23 +9,28 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.V1.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/{academicYear}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class ApplicationVersionsController : ControllerBase
     {
-        private readonly IProvider<ApplicationVersions> _applicationVersionsProvider;
+        private readonly IApplicationVersionsProvider _applicationVersionsProvider;
         private readonly IPollyPolicies _policies;
 
-        public ApplicationVersionsController(IProvider<ApplicationVersions> applicationVersionsProvider, IPollyPolicies policies)
+        public ApplicationVersionsController(
+            IApplicationVersionsProvider applicationVersionsProvider,
+            IPollyPolicies policies)
         {
             _applicationVersionsProvider = applicationVersionsProvider;
             _policies = policies;
         } 
 
-        // GET api/values
         [HttpGet]
-        public async Task<ApplicationVersions> Get(string academicYear, CancellationToken cancellationToken)
+        [Route("isLatest/{academicYear}/{major}/{minor}")]
+        public async Task<bool> Get(string academicYear, int major, int minor, CancellationToken cancellationToken)
         {
-            return await _policies.RequestTimeoutAsyncRetryPolicy.ExecuteAsync(() => _applicationVersionsProvider.ProvideVersions(academicYear, cancellationToken));
+            var version = new Version(major, minor);
+
+            return await _policies.RequestTimeoutAsyncRetryPolicy
+                .ExecuteAsync(() => _applicationVersionsProvider.IsNewerVersion(academicYear, version, cancellationToken));
         }
     }
 }
