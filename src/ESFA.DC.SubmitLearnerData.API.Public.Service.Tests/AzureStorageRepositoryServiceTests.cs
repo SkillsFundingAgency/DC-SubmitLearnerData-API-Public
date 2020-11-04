@@ -63,7 +63,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
         }
 
         [Fact]
-        public async Task LatestReferenceDataVersionAsync_Returns_Correct_Version1()
+        public async Task LatestReferenceDataVersionAsync_Returns_Current_Version_If_No_Filenames_Match()
         {
             var currentVersion = 2;
 
