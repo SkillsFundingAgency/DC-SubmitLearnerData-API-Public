@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Interface
+namespace ESFA.DC.SubmitLearnerData.API.Public.Interface
 {
     public interface IFileProviderService
     {

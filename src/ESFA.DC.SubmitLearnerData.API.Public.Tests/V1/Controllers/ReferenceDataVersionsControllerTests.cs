@@ -1,10 +1,8 @@
 ﻿using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Logging.Interfaces;
-using ESFA.DC.SubmitLearnerData.API.Public.Service.Interface;
-using ESFA.DC.SubmitLearnerData.API.Public.Utils.Polly;
-using ESFA.DC.SubmitLearnerData.API.Public.Utils.Polly.Interface;
+using ESFA.DC.SubmitLearnerData.API.Public.Config;
+using ESFA.DC.SubmitLearnerData.API.Public.Interface;
 using ESFA.DC.SubmitLearnerData.API.Public.V1.Controllers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -18,35 +16,40 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Tests.V1.Controllers
         [Fact]
         public async Task Get()
         {
+            int currentReferenceVersion = 1;
             var academicYear = "1920";
             var cancellationToken = CancellationToken.None;
-            var fileReference = "Filename.zip";
+            var fileReference = $"FISReferenceData.{currentReferenceVersion}.zip";
             var filePath = string.Concat(academicYear, "/", fileReference);
             Stream stream = new MemoryStream();
 
-            var providerMock = new Mock<IFileProviderService>();
-            providerMock.Setup(pm => pm.ProvideFile(filePath, cancellationToken)).Returns(Task.FromResult(stream));
+            var refDataProviderMock = new Mock<IReferenceDataVersionProvider>();
 
-            var loggerMock = new Mock<ILogger>();
-            var policies = new PollyPolicies(loggerMock.Object);
+            var fileProviderMock = new Mock<IFileProviderService>();
+            fileProviderMock
+                .Setup(pm => pm.ProvideFile(filePath, cancellationToken))
+                .ReturnsAsync(stream);
 
-            var controller = NewController(providerMock.Object, policies);
+            var controller = NewController(null, refDataProviderMock.Object, fileProviderMock.Object);
 
-            using (var fileStream = await providerMock.Object.ProvideFile(filePath, cancellationToken))
-            {
-                var result = await controller.Get(academicYear, fileReference, cancellationToken);
+            var result = await controller.Get(academicYear, currentReferenceVersion, cancellationToken);
 
-                result.FileDownloadName.Should().BeEquivalentTo(fileReference);
+            result.FileDownloadName.Should().BeEquivalentTo(filePath);
 
-                providerMock.VerifyAll();
-            }               
+            fileProviderMock.VerifyAll();
         }
 
-        private ReferenceDataVersionsController NewController(
-            IFileProviderService fileProviderService = null,
-            IPollyPolicies pollyPolicies = null)
+        private ReferenceDataVersionsController NewController(APIConfiguration configuration = null, IReferenceDataVersionProvider provider = null, IFileProviderService fileProviderService = null)
         {
-            return new ReferenceDataVersionsController(fileProviderService, pollyPolicies);
+            var config = new APIConfiguration
+            {
+                Container = "Container",
+                ApplicationFileNameReference = "Desktop",
+                RefDataFileNameReference = "FISReferenceData",
+                RefDataFilePathPrefix = "DesktopReferenceData"
+            };
+
+            return new ReferenceDataVersionsController(configuration ?? config, provider, fileProviderService);
         }
     }
 }

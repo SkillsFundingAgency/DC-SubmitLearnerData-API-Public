@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ESFA.DC.SubmitLearnerData.API.Public.Interface;
 using Microsoft.Extensions.Caching.Memory;
-using ESFA.DC.SubmitLearnerData.API.Public.Service.Interface;
 
 namespace ESFA.DC.SubmitLearnerData.API.Public.Service
 {

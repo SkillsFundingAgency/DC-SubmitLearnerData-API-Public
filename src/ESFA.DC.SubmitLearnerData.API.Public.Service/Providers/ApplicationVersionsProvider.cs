@@ -1,42 +1,41 @@
-﻿using System.Linq;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.SubmitLearnerData.API.Public.Config;
 using ESFA.DC.SubmitLearnerData.API.Public.Interface;
-using ESFA.DC.SubmitLearnerData.API.Public.Model;
-using ESFA.DC.SubmitLearnerData.API.Public.Service.Interface;
 
 namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Providers
 {
-    public class ApplicationVersionsProvider : IProvider<ApplicationVersions>
+    public class ApplicationVersionsProvider : IApplicationVersionsProvider
     {
-        private const string _cacheEntry = "Versions";
+        private const string CacheEntry = "Versions";
 
         private readonly IRepositoryService _applicationVersionsRepositoryService;
         private readonly IAPICacheRetrievalService _apiCacheRetrieval;
-        private readonly IAPIConfiguration _configuration;
+        private readonly APIConfiguration _configuration;
 
-        public ApplicationVersionsProvider(IRepositoryService applicationVersionsRepositoryService, IAPICacheRetrievalService apiCacheRetrieval, IAPIConfiguration configuration)
+        public ApplicationVersionsProvider(
+            IRepositoryService applicationVersionsRepositoryService,
+            IAPICacheRetrievalService apiCacheRetrieval,
+            APIConfiguration configuration)
         {
             _applicationVersionsRepositoryService = applicationVersionsRepositoryService;
             _apiCacheRetrieval = apiCacheRetrieval;
             _configuration = configuration;
         }
 
-        public async Task<ApplicationVersions> ProvideVersions(string academicYear, CancellationToken cancellationToken)
+        public async Task<bool> IsNewerVersion(string academicYear, Version version, CancellationToken cancellationToken)
         {
-            return await _apiCacheRetrieval.GetOrCreate(string.Concat(_cacheEntry, academicYear), _configuration.CacheExpiration, BuildApplicationVersions(academicYear, cancellationToken));
+            return await _apiCacheRetrieval
+                .GetOrCreate(string.Concat(
+                    CacheEntry, academicYear),
+                    _configuration.CacheExpiration,
+                    CheckApplicationVersion(academicYear, version, cancellationToken));
         }
 
-        private async Task<ApplicationVersions> BuildApplicationVersions(string academicYear, CancellationToken cancellationToken)
+        private async Task<bool> CheckApplicationVersion(string academicYear, Version version, CancellationToken cancellationToken)
         {
-            var versions = await _applicationVersionsRepositoryService.DesktopApplicationVersions(academicYear, cancellationToken);
-
-            return new ApplicationVersions
-            {
-                Url = _configuration.SubmitLearnerDataDownloadsUrl,
-                LastUpdated = versions.Max(v => v.ReleaseDateTime),
-                Versions = versions.ToList()
-            };
+            return await _applicationVersionsRepositoryService.IsNewerDesktopApplicationVersion(academicYear, version, cancellationToken);
         }
     }
 }
