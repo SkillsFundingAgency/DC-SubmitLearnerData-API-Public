@@ -44,9 +44,10 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
         {
             IEnumerable<FileMetaData> fileData = new List<FileMetaData>
             {
-                new FileMetaData { FileName = "FISReferenceData.1.zip" },
-                new FileMetaData { FileName = "FISReferenceData.2.zip" },
-                new FileMetaData { FileName = "FISReferenceData.3.zip" }
+                new FileMetaData { FileName = "FISReferenceData.5.zip" },
+                new FileMetaData { FileName = "FISReferenceData.10.zip" },
+                new FileMetaData { FileName = "FISReferenceData.22.zip" },
+                new FileMetaData { FileName = "FISReferenceData.345.zip" }
             };
 
             var fileServiceMock = new Mock<IFileService>();
@@ -57,7 +58,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
             var service = NewService(null, fileServiceMock.Object);
             var result = await service.LatestReferenceDataVersionAsync("2021", 2, CancellationToken.None);
 
-            result.Should().Be(3);
+            result.Should().Be(345);
         }
 
         [Fact]

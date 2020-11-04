@@ -58,7 +58,6 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
 
             var latestVersion =  referenceDataVersions
                 .Where(x => x.FileName.Contains(_configuration.RefDataFileNameReference))
-                .OrderByDescending(v => v.FileName)
                 .Select(v => SplitVersion(v.FileName, 1))
                 .Max();
 
