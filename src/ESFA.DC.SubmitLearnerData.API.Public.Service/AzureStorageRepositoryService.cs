@@ -49,6 +49,8 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
 
         public async Task<int> LatestReferenceDataVersionAsync(string academicYear, int version, CancellationToken cancellationToken)
         {
+            var latestVersion = version;
+
             var referenceDataVersions = await _fileService.GetFileMetaDataAsync(_configuration.Container, string.Concat(_configuration.RefDataFilePathPrefix, "/", academicYear), true, cancellationToken, false);
 
             if (referenceDataVersions == null)
@@ -56,12 +58,17 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
                 return version;
             }
 
-            var latestVersion =  referenceDataVersions
+            var latestVersions =  referenceDataVersions
                 .Where(x => x.FileName.Contains(_configuration.RefDataFileNameReference))
                 .Select(v => SplitVersion(v.FileName, 1))
-                .Max();
+                .ToList();
 
-            return latestVersion > version ? latestVersion : version;
+            if (latestVersions.Any())
+            {
+                latestVersion = latestVersions.Max();
+            }
+
+            return latestVersion;
         }
 
         public async Task<Stream> GetReferenceDataFile(string fileName, CancellationToken cancellationToken)

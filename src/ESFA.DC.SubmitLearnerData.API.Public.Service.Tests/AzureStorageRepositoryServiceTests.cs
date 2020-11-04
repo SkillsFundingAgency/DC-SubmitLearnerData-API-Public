@@ -47,6 +47,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
                 new FileMetaData { FileName = "FISReferenceData.5.zip" },
                 new FileMetaData { FileName = "FISReferenceData.10.zip" },
                 new FileMetaData { FileName = "FISReferenceData.22.zip" },
+                new FileMetaData { FileName = "FISReferenceData.34.zip" },
                 new FileMetaData { FileName = "FISReferenceData.345.zip" }
             };
 
@@ -59,6 +60,27 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
             var result = await service.LatestReferenceDataVersionAsync("2021", 2, CancellationToken.None);
 
             result.Should().Be(345);
+        }
+
+        [Fact]
+        public async Task LatestReferenceDataVersionAsync_Returns_Correct_Version1()
+        {
+            var currentVersion = 2;
+
+            IEnumerable<FileMetaData> fileData = new List<FileMetaData>
+            {
+                new FileMetaData { FileName = "" }
+            };
+
+            var fileServiceMock = new Mock<IFileService>();
+            fileServiceMock
+                .Setup(m => m.GetFileMetaDataAsync(It.IsAny<string>(), It.IsAny<string>(), true, It.IsAny<CancellationToken>(), false))
+                .ReturnsAsync(fileData);
+
+            var service = NewService(null, fileServiceMock.Object);
+            var result = await service.LatestReferenceDataVersionAsync("2021", currentVersion, CancellationToken.None);
+
+            result.Should().Be(currentVersion);
         }
 
         [Fact]
