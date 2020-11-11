@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.SubmitLearnerData.API.Public.Interface;
+using ESFA.DC.SubmitLearnerData.API.Public.Model.Config;
 using ESFA.DC.SubmitLearnerData.API.Public.Utils.Polly.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +32,14 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.V1.Controllers
 
             return await _policies.RequestTimeoutAsyncRetryPolicy
                 .ExecuteAsync(() => _applicationVersionsProvider.IsNewerVersion(academicYear, version, cancellationToken));
+        }
+
+        [HttpGet]
+        [Route("downloadLocation")]
+        public async Task<ApplicationVersionLocation> Get()
+        {
+            return await _policies.RequestTimeoutAsyncRetryPolicy
+                            .ExecuteAsync(() => _applicationVersionsProvider.DownloadLocation());
         }
     }
 }
