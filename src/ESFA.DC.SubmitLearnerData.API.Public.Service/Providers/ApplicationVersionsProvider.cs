@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.SubmitLearnerData.API.Public.Config;
 using ESFA.DC.SubmitLearnerData.API.Public.Interface;
+using ESFA.DC.SubmitLearnerData.API.Public.Model.Config;
 
 namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Providers
 {
@@ -22,6 +23,14 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Providers
             _applicationVersionsRepositoryService = applicationVersionsRepositoryService;
             _apiCacheRetrieval = apiCacheRetrieval;
             _configuration = configuration;
+        }
+
+        public async Task<ApplicationVersionLocation> DownloadLocation()
+        {
+            return new ApplicationVersionLocation
+            {
+                Url = _configuration.SubmitLearnerDataDownloadsUrl
+            };
         }
 
         public async Task<bool> IsNewerVersion(string academicYear, Version version, CancellationToken cancellationToken)
