@@ -1,5 +1,4 @@
-### NOT USED YET
-#name:  $(GitVersion.NuGetVersion)
+
 name: $(GitVersion.SemVer)
 
 parameters:
