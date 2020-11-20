@@ -35,7 +35,7 @@ stages:
     pool:
       name: DCT
       demands:
-      - IsBuildServerTest
+      - PJC_BuildServer
 
     steps:
     - task: UseDotNet@2
