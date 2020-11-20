@@ -38,7 +38,6 @@ stages:
       - IsBuildServerTest
 
     steps:
-
     - task: UseDotNet@2
       displayName: 'Use .NET Core sdk : $(DotnetCore.Version)'
       inputs:
