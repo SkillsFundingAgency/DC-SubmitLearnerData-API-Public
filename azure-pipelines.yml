@@ -249,6 +249,7 @@ stages:
         reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
     
     - task: dependency-check-build-task@5
+      enabled: false
       displayName: 'Run OWASP Dependency Check'
       inputs:
         projectName: 'ESFA.DC.SubmitLearnerData.API.Public'
@@ -257,6 +258,7 @@ stages:
         reportsDirectory: '$(Build.SourcesDirectory)/OWASP'
         
     - task: PublishTestResults@2
+      enabled: false
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles:  '$(Build.SourcesDirectory)/OWASP/**/dependency-check-junit.xml'
