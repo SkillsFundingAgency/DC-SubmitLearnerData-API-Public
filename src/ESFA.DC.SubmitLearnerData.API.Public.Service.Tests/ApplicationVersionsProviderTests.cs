@@ -21,7 +21,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
 
             var repositoryServiceMock = new Mock<IRepositoryService>();
             repositoryServiceMock
-                .Setup(rs => rs.IsNewerDesktopApplicationVersion(academicYear, version, cancellationToken))
+                .Setup(rs => rs.IsLatestDesktopApplicationVersion(academicYear, version, cancellationToken))
                 .ReturnsAsync(true);
 
             var apiCacheProviderMock = new Mock<IAPICacheRetrievalService>();
@@ -36,7 +36,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
             };
 
             var service = NewService(repositoryServiceMock.Object, apiCacheProviderMock.Object, config);
-            var result = await service.IsNewerVersion(academicYear, version, cancellationToken);
+            var result = await service.IsLatestVersion(academicYear, version, cancellationToken);
 
             result.Should().Be(true);
         }

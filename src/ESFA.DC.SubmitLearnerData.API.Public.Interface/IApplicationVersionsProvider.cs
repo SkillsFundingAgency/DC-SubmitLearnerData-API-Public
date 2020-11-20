@@ -7,7 +7,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Interface
 {
     public interface IApplicationVersionsProvider
     {
-        Task<bool> IsNewerVersion(string academicYear, Version version, CancellationToken cancellationToken);
+        Task<bool> IsLatestVersion(string academicYear, Version version, CancellationToken cancellationToken);
         Task<ApplicationVersionLocation> DownloadLocation();
     }
 }

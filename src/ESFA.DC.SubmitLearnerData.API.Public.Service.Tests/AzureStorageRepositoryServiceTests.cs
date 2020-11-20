@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using ESFA.DC.FileService.Interface;
 using ESFA.DC.FileService.Interface.Model;
 using ESFA.DC.SubmitLearnerData.API.Public.Config;
-using ESFA.DC.SubmitLearnerData.API.Public.Interface;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -16,7 +15,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
     public class AzureStorageRepositoryServiceTests
     {
         [Fact]
-        public async Task DesktopApplicationVersions()
+        public async Task DesktopApplicationVersions_NewAvailable()
         {
             var currentVersion = new Version(1, 1);
 
@@ -34,9 +33,49 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Tests
                 .Returns(Task.FromResult(fileData));
 
             var service = NewService(null, fileServiceMock.Object);
-            var result = await service.IsNewerDesktopApplicationVersion("1920", currentVersion, CancellationToken.None);
+            var result = await service.IsLatestDesktopApplicationVersion("1920", currentVersion, CancellationToken.None);
 
-            result.Should().Be(true);
+            result.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task DesktopApplicationVersions_NoUpdate()
+        {
+            var currentVersion = new Version(1, 3);
+
+            IEnumerable<FileMetaData> fileData = new List<FileMetaData>
+            {
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.0.zip" },
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.1.zip" },
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.2.zip" },
+                new FileMetaData { FileName = "DC-ILR-1920-FIS-Desktop.1.3.zip" }
+            };
+
+            var fileServiceMock = new Mock<IFileService>();
+            fileServiceMock
+                .Setup(fs => fs.GetFileMetaDataAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>(), false))
+                .Returns(Task.FromResult(fileData));
+
+            var service = NewService(null, fileServiceMock.Object);
+            var result = await service.IsLatestDesktopApplicationVersion("1920", currentVersion, CancellationToken.None);
+
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task DesktopApplicationVersions_NoUpdate_NullResult()
+        {
+            var currentVersion = new Version(1, 3);
+
+            var fileServiceMock = new Mock<IFileService>();
+            fileServiceMock
+                .Setup(fs => fs.GetFileMetaDataAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>(), false))
+                .Returns(Task.FromResult((IEnumerable<FileMetaData>)null));
+
+            var service = NewService(null, fileServiceMock.Object);
+            var result = await service.IsLatestDesktopApplicationVersion("1920", currentVersion, CancellationToken.None);
+
+            result.Should().BeTrue();
         }
 
         [Fact]
