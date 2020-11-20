@@ -157,7 +157,7 @@ stages:
         zipAfterPublish: true
         nobuild: true
         projects: '**/*.API.Public.csproj'
-        arguments: '--configuration ${{ parameters.BuildConfiguration }} --no-build -p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)" --output "$(Build.ArtifactStagingDirectory)\Web"'
+        arguments: '--configuration ${{ parameters.BuildConfiguration }} --no-build -p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)" --output "$(Build.ArtifactStagingDirectory)\Web\API"'
 
 #********************************************************************************
 # SQL database Project Build and Acopy to  Artifact Directory
