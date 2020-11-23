@@ -27,7 +27,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Tests.V1.Controllers
 
             var providerMock = new Mock<IApplicationVersionsProvider>();
             providerMock
-                .Setup(pm => pm.IsNewerVersion(academicYear, version, cancellationToken))
+                .Setup(pm => pm.IsLatestVersion(academicYear, version, cancellationToken))
                 .ReturnsAsync(false);
 
             var policies = new PollyPolicies(Mock.Of<ILogger>());
@@ -35,7 +35,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Tests.V1.Controllers
             var controller = NewController(providerMock.Object, policies);
 
             var result = await controller.Get(academicYear, currentMajor, currentMinor, cancellationToken);
-            result.Should().Be(false);
+            result.Should().BeFalse();
         }
 
         private ApplicationVersionsController NewController(

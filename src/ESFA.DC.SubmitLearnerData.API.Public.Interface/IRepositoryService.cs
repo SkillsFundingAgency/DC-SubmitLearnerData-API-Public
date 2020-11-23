@@ -7,7 +7,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Interface
 {
     public interface IRepositoryService
     {
-        Task<bool> IsNewerDesktopApplicationVersion(
+        Task<bool> IsLatestDesktopApplicationVersion(
             string academicYear,
             Version currentVersion,
             CancellationToken cancellationToken);

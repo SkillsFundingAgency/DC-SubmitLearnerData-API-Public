@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="5.1.2" />
-    <PackageReference Include="ESFA.DC.FileService" Version="0.1.35-beta0001" />
-    <PackageReference Include="ESFA.DC.FileService.Interface" Version="0.1.35-beta0001" />
+    <PackageReference Include="ESFA.DC.FileService" Version="0.1.41-beta0001" />
+    <PackageReference Include="ESFA.DC.FileService.Interface" Version="0.1.39-beta0001" />
     <PackageReference Include="ESFA.DC.Logging" Version="0.1.10-beta0001" />
     <PackageReference Include="ESFA.DC.Logging.Interfaces" Version="0.1.10-beta0001" />
   </ItemGroup>

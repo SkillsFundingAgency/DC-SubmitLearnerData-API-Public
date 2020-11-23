@@ -22,7 +22,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
             _fileService = fileService;
         }
 
-        public async Task<bool> IsNewerDesktopApplicationVersion(
+        public async Task<bool> IsLatestDesktopApplicationVersion(
             string academicYear,
             Version currentVersion,
             CancellationToken cancellationToken)
@@ -31,7 +31,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
 
             if (applicationVersions == null)
             {
-                return false;
+                return true;
             }
 
             foreach (var fileData in applicationVersions.Where(x => x.FileName.Contains(_configuration.ApplicationFileNameReference)))
@@ -40,11 +40,11 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service
 
                 if(version > currentVersion)
                 {
-                    return true;
+                    return false;
                 }
             }
 
-            return false;
+            return true;
         }
 
         public async Task<int> LatestReferenceDataVersionAsync(string academicYear, int version, CancellationToken cancellationToken)

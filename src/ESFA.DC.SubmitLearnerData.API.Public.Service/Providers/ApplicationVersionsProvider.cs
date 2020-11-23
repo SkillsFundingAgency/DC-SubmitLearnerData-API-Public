@@ -33,7 +33,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Providers
             };
         }
 
-        public async Task<bool> IsNewerVersion(string academicYear, Version version, CancellationToken cancellationToken)
+        public async Task<bool> IsLatestVersion(string academicYear, Version version, CancellationToken cancellationToken)
         {
             return await _apiCacheRetrieval
                 .GetOrCreate(string.Concat(
@@ -44,7 +44,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Service.Providers
 
         private async Task<bool> CheckApplicationVersion(string academicYear, Version version, CancellationToken cancellationToken)
         {
-            return await _applicationVersionsRepositoryService.IsNewerDesktopApplicationVersion(academicYear, version, cancellationToken);
+            return await _applicationVersionsRepositoryService.IsLatestDesktopApplicationVersion(academicYear, version, cancellationToken);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.Tests.V1.Controllers
 
             var result = await controller.Get(academicYear, currentReferenceVersion, cancellationToken);
 
-            result.FileDownloadName.Should().BeEquivalentTo(filePath);
+            result.FileDownloadName.Should().BeEquivalentTo(fileReference);
 
             fileProviderMock.VerifyAll();
         }

@@ -31,7 +31,7 @@ namespace ESFA.DC.SubmitLearnerData.API.Public.V1.Controllers
             var version = new Version(major, minor);
 
             return await _policies.RequestTimeoutAsyncRetryPolicy
-                .ExecuteAsync(() => _applicationVersionsProvider.IsNewerVersion(academicYear, version, cancellationToken));
+                .ExecuteAsync(() => _applicationVersionsProvider.IsLatestVersion(academicYear, version, cancellationToken));
         }
 
         [HttpGet]
